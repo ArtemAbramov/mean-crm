@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const passport = require('passport')
 const cors = require('cors')
 const morgan = require('morgan')
 const authRoutes = require('./routes/auth')
@@ -12,12 +13,15 @@ const keys = require('./config/keys')
 const app = express()
 
 mongoose.connect(keys.mongoURI)
-    .then(res => {
+    .then(() => {
         console.log('Mongo DB connected')
     })
     .catch(err => {
         console.log(`Error: ${err}`)
     })
+
+app.use(passport.initialize())
+require('./middleware/passport')(passport)
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
