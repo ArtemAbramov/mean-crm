@@ -26,7 +26,7 @@ module.exports.remove = async function(req, res) {
         await Category.remove({_id: req.params.id})
         await Position.remove({category: req.params.id})
         res.status(200).json({
-            message: 'Category was removed.'
+            message: 'Категория была удалена.'
         })
     } catch(err) {
         errorHandler(res, err)

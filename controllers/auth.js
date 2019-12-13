@@ -22,12 +22,12 @@ module.exports.login = async function(req, res) {
             })
         } else {
             res.status(401).json({
-                message: 'Invalid password.'
+                message: 'Неверный пароль.'
             })
         }
     } else {
         res.status(404).json({
-            message: 'Invalid email.'
+            message: 'Неверный email.'
         })
     }
 }
@@ -35,7 +35,7 @@ module.exports.login = async function(req, res) {
 module.exports.register = async function(req, res) {
     const candidate = await User.findOne({email: req.body.email})
     if (candidate) {
-        res.status(409).json({message: 'A user with this email exists.'})
+        res.status(409).json({message: 'Пользователь с таким email уже существует.'})
     } else {
         const salt = bcrypt.genSaltSync(10)
         const password = req.body.password
@@ -48,7 +48,7 @@ module.exports.register = async function(req, res) {
             await user.save()
             res.status(201).json({
                 user,
-                message: 'User has been created.'
+                message: 'Новый пользователь был создан.'
             })
         } catch(err) {
             errorHandler(res, err)
